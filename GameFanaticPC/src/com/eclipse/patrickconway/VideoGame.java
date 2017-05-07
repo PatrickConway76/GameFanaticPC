@@ -1,6 +1,7 @@
 package com.eclipse.patrickconway;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 public class VideoGame
 {
@@ -59,7 +60,34 @@ public class VideoGame
 	
 	public float calculateTradeInValue()
 	{
-		return 0.0f;
+		long daysSinceRelease;
+		final int DEGRATION_DAYS = 60;
+		int percentageMultiplier;
+		float tradeInValue;
+		final float PERCENTAGE_OFF = 0.10f;
+		final float LESS_THAN_60_DAYS_PERCENTAGE = 0.05f;
+		
+		daysSinceRelease = ChronoUnit.DAYS.between(releaseDate, LocalDate.now());
+		percentageMultiplier = (int) (daysSinceRelease / DEGRATION_DAYS);
+		
+		if (percentageMultiplier == 0)
+		{
+			tradeInValue = price - (LESS_THAN_60_DAYS_PERCENTAGE * price);
+		}
+		else
+		{
+			tradeInValue = price - ((percentageMultiplier * PERCENTAGE_OFF) * price);
+		}
+		
+		if (tradeInValue < 0)
+		{
+			return 0.0f;
+		}
+		System.out.print(tradeInValue);
+		
+		
+		
+		return tradeInValue;
 	}
 	
 	

@@ -10,9 +10,11 @@ public class VideoGameDemo {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		VideoGame crap = new VideoGame("Game 1", 69.96f, LocalDate.now(), 10);
-		VideoGame crap2 = new VideoGame("Game 2", 20.69f, LocalDate.now().minus(20, ChronoUnit.DAYS), 10);
+		VideoGame crap2 = new VideoGame("Game 2", 20.69f, LocalDate.now().minus(5, ChronoUnit.DAYS), 10);
 		
-		enterGame();
+		crap2.calculateTradeInValue();
+		
+//		enterGame();
 		
 	}
 	
@@ -46,10 +48,10 @@ public class VideoGameDemo {
 		rating = sc.nextInt();
 		
 		VideoGame newGame = new VideoGame(title, price, releaseDate, rating);
-		crap = ChronoUnit.DAYS.between(LocalDate.now(), releaseDate);
+		
 		
 		System.out.println(newGame.getTitle() + "\n" + newGame.getPrice() + "\n" + newGame.getReleaseDate().toString() + "\n" + newGame.getRating());
-		System.out.println(crap);
+		//System.out.println(crap);
 		
 		return newGame;
 	}
