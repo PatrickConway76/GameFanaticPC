@@ -8,7 +8,7 @@ public class VideoGame
 	private String title;
 	private float price;
 	private LocalDate releaseDate;
-	private int rating;
+	private float rating;
 	
 	public String getTitle()
 	{
@@ -40,7 +40,7 @@ public class VideoGame
 		this.releaseDate = releaseDate;
 	}
 
-	public int getRating()
+	public float getRating()
 	{
 		return rating;
 	}
@@ -50,7 +50,7 @@ public class VideoGame
 		this.rating = rating;
 	}
 	
-	public VideoGame(String title, float price, LocalDate releaseDate, int rating)
+	public VideoGame(String title, float price, LocalDate releaseDate, float rating)
 	{
 		this.title = title;
 		this.price = price;
@@ -61,14 +61,15 @@ public class VideoGame
 	public float calculateTradeInValue()
 	{
 		long daysSinceRelease;
-		final int DEGRATION_DAYS = 60;
 		int percentageMultiplier;
 		float tradeInValue;
-		final float PERCENTAGE_OFF = 0.10f;
+		
+		final int DEGRATION_DAYS = 60;
+		final float PERCENTAGE_DISCOUNTED = 0.10f;
 		final float LESS_THAN_60_DAYS_PERCENTAGE = 0.05f;
 		
 		daysSinceRelease = ChronoUnit.DAYS.between(releaseDate, LocalDate.now());
-		percentageMultiplier = (int) (daysSinceRelease / DEGRATION_DAYS);
+		percentageMultiplier = (int) daysSinceRelease / DEGRATION_DAYS;
 		
 		if (percentageMultiplier == 0)
 		{
@@ -76,16 +77,31 @@ public class VideoGame
 		}
 		else
 		{
-			tradeInValue = price - ((percentageMultiplier * PERCENTAGE_OFF) * price);
+			tradeInValue = price - ((percentageMultiplier * PERCENTAGE_DISCOUNTED) * price);
 		}
 		
-		if (tradeInValue < 0)
+		if (tradeInValue < 0 && rating < 8.5)
 		{
-			return 0.0f;
+			System.out.println(title + " 0.0");
+			return 0.0f; // The customer can't owe us money (unless it's E.T. for the Atari 2600), so just say it's worth nothing.
 		}
-		System.out.print(tradeInValue);
+		else if (rating >= 8.5)
+		{
+			System.out.println("Greater than 8.5 rating");
+			float tempTradeInValue = tradeInValue + 5; // Don't want to modify trade in value until we know the exact bonus
+			
+			if (tempTradeInValue < 0)
+			{
+				System.out.println(title + " 0.0 but rating >= 8.5");
+				return 0.0f;
+			}
+			else if (tempTradeInValue > price)
+			{
+				tradeInValue = price;
+			}
+		}
 		
-		
+		System.out.println(title + " " + tradeInValue);
 		
 		return tradeInValue;
 	}
