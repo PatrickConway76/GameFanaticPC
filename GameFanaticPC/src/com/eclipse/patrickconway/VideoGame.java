@@ -82,17 +82,15 @@ public class VideoGame
 		
 		if (tradeInValue < 0 && rating < 8.5)
 		{
-			System.out.println(title + " 0.0");
 			return 0.0f; // The customer can't owe us money (unless it's E.T. for the Atari 2600), so just say it's worth nothing.
 		}
 		else if (rating >= 8.5)
 		{
-			System.out.println("Greater than 8.5 rating");
 			float tempTradeInValue = tradeInValue + 5; // Don't want to modify trade in value until we know the exact bonus
 			
 			if (tempTradeInValue < 0)
 			{
-				System.out.println(title + " 0.0 but rating >= 8.5");
+				System.out.println(title + " 0.0");
 				return 0.0f;
 			}
 			else if (tempTradeInValue > price)
